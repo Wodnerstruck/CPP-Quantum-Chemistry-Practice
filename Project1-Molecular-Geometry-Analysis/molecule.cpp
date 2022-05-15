@@ -61,7 +61,8 @@ double Molecule::angle(int a,int b, int c)
 {
   return (acos(unit(b,a,0) * unit(b,c,0)+unit(b,a,1) * unit(b,c,1)
   +unit(b,a,2) * unit(b,c,2))) ;
-
+  //Plz trans radian to degree of angle in the main function,don't trans in this 
+  //function,otherwise you would get wrong values when function opp call function angle
 }
 
 double Molecule::opp(int a,int b,int c,int d)
@@ -79,7 +80,7 @@ double Molecule::opp(int a,int b,int c,int d)
   double e_yy = e_bcd_y * unit(c,a,1);
   double e_zz = e_bcd_z * unit(c,a,2);
   //calc theta
-  double theta = (e_xx+e_yy+e_zz)/sin(angle(b,c,d));
+  double theta = (e_xx+e_yy+e_zz) / sin(angle(b,c,d));
   // the value may out of (-1,1)
   if (theta<-1.0) theta = asin(-1.0);
     else if(theta>1.0) theta = asin(1.0);
