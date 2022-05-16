@@ -90,4 +90,41 @@ double Molecule::opp(int a,int b,int c,int d)
 
 }
 
+double Molecule::dihedral(int a,int b,int c, int d)
+{
+  //cross ab bc get normal vec of plane abc
+  double e_abc_x = unit(a,b,1) * unit(b,c,2) - unit(a,b,2) * unit(b,c,1);
+  double e_abc_y = unit(a,b,2) * unit(b,c,0) - unit(a,b,0) * unit(b,c,2);
+  double e_abc_z = unit(a,b,0) * unit(b,c,1) - unit(a,b,1) * unit(b,c,0);
+  //cross bc cd get normal vec of plane bcd
+  double e_bcd_x = unit(b,c,1) * unit(c,d,2) - unit(b,c,2) * unit(c,d,1);
+  double e_bcd_y = unit(b,c,2) * unit(c,d,0) - unit(b,c,0) * unit(c,d,2);
+  double e_bcd_z = unit(b,c,0) * unit(c,d,1) - unit(b,c,1) * unit(c,d,0);
+
+  //calc tau
+  double tau = (e_abc_x * e_bcd_x + e_abc_y * e_bcd_y 
+  + e_abc_z * e_bcd_z) / (sin(angle(a,b,c)) * sin(angle(b,c,d))
+  );   
+  if (tau > 1.0) tau = acos(1.0);
+    else if (tau < -1.0) tau = acos(-1.0);
+      else tau = acos(tau);
+  
+  
+  /*determine the angle sign: cross the two plane normal vectors then dot with 
+  plane intersection vector*/
+  double cross_x = e_abc_y * e_bcd_z - e_abc_z * e_bcd_y;
+  double cross_y = e_abc_z * e_bcd_x - e_abc_x * e_bcd_z;
+  double cross_z = e_abc_x * e_abc_y - e_abc_y * e_bcd_x;
+  
+//only determine sign, not need to normalize the cross vector
+  double sign = 1.0;
+  double dot = cross_x * unit(b,c,0) + cross_y * unit(b,c,1) +cross_z * unit(b,c,2);
+  if (dot < 0.0) sign = -1.0;
+  
+  return (tau * sign); 
+  
+  
+  
+}
+
 

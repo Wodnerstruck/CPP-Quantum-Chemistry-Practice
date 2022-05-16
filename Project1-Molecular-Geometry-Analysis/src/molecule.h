@@ -21,6 +21,7 @@ class Molecule
     double unit(int a,int b,int coor);//coor : 0 -x 1 -y 2 -z
     double angle(int a1, int a2, int a3);
     double opp(int a,int b,int c,int d);
+    double dihedral(int a,int b,int c, int d);
     //double torsion(int a1, int a2, int a3, int a4);
  
     Molecule(const char *filename,int q );
