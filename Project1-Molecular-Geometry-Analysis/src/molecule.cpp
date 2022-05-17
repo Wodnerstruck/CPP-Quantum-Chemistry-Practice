@@ -38,7 +38,7 @@ Molecule::~Molecule()
     delete[] geom[i];
   delete[] geom;
 }
-
+//print geometry
 void Molecule::print_geom ()
 {
     for(int i=0;i<natom;i++){
@@ -46,17 +46,30 @@ void Molecule::print_geom ()
     }
 
 }
+//translate molecular
+void Molecule::translate(double x,double y,double z)
+{
+  for (int i = 0; i < natom; i++)
+  {
+    geom[i][0] += x;
+    geom[i][1] += y;
+    geom[i][2] += z;
+  }
+  
+}
+//get bond length
 double Molecule::bond(int a1,int a2)
 {
      return (sqrt((geom[a1][0]-geom[a2][0]) * (geom[a1][0]-geom[a2][0])
      +(geom[a1][1]-geom[a2][1]) * (geom[a1][1]-geom[a2][1])
      +(geom[a1][2]-geom[a2][2]) * (geom[a1][2] - geom[a2][2])));
 }
+//get unit vector
 double Molecule::unit(int a,int b,int coor)
 {
   return -(geom[a][coor]- geom[b][coor])/bond(a,b);
 }
-
+//get bond angle
 double Molecule::angle(int a,int b, int c)
 {
   return (acos(unit(b,a,0) * unit(b,c,0)+unit(b,a,1) * unit(b,c,1)
@@ -64,7 +77,7 @@ double Molecule::angle(int a,int b, int c)
   //Plz trans radian to degree of angle in the main function,don't trans in this 
   //function,otherwise you would get wrong values when function opp call function angle
 }
-
+//get out of plane angle
 double Molecule::opp(int a,int b,int c,int d)
 {
   //cross product of cb(kj) & cd(kl)
@@ -89,7 +102,7 @@ double Molecule::opp(int a,int b,int c,int d)
         return theta;
 
 }
-
+//get dihedral angle
 double Molecule::dihedral(int a,int b,int c, int d)
 {
   //cross ab bc get normal vec of plane abc

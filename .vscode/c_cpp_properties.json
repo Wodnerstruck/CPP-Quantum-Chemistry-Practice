@@ -4,7 +4,9 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/include/**"
+                "/usr/local/include/**",
+                "/usr/local/Cellar/armadillo/11.0.1/include/**",
+                "/usr/local/Cellar/armadillo/11.0.1/include"
             ],
             "defines": [],
             "macFrameworkPath": [],

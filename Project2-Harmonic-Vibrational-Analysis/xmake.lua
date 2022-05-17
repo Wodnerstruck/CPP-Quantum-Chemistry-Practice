@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release")
 
-target("Project1-Molecular-Geometry-Analysis")
+target("Project2-Harmonic-Vibrational-Analysis")
     set_kind("binary")
     add_files("src/*.cpp")
     add_includedirs("/usr/local/Cellar/armadillo/11.0.1/include/")
@@ -8,7 +8,7 @@ target("Project1-Molecular-Geometry-Analysis")
     set_languages( "c++11")
     add_linkdirs("/usr/local/Cellar/armadillo/11.0.1/lib")
 
-
+--
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
 -- ## FAQ
