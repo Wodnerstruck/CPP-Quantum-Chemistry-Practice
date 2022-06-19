@@ -87,19 +87,10 @@ void SCF::iterat(integrals Int){
     // Cycle number
     cycles++; 
     //IF Converge
-    double delta_E = abs(E_2 - E_1);
-    double delta_D = 0.0;
-    for (int i = 0; i < (Int.dim); i++)
-    {
-        for (int j = 0; j < (Int.dim); j++)
-        {
-            delta_D += pow((P_2(i,j) - P_1(i,j)),2.0);
-        }
-        
-    }
-    
-    double RMS_D = sqrt(delta_D);
-    if ((delta_E < 1e-11) && (RMS_D < 1e-11))
+    double delta_E = abs(E_2 - E_1); //Energy difference
+    arma::mat Delta_P = P_2 - P_1; //DM difference
+    double RMS_D = sqrt(arma::accu(arma::pow(Delta_P,2)));// DM Root Mean Square
+    if ((delta_E < 1e-12) && (RMS_D < 1e-12)) //Convergence threshold
     {
         cout<< "SCF Done :   E = " << std::fixed  << std::setprecision(12) 
             << E_2 + (Int.E_NN) << "    A.U.  after " << cycles << " Cycles" << endl;
