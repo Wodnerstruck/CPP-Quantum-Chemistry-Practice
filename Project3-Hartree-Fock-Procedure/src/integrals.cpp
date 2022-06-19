@@ -25,8 +25,7 @@ integrals::integrals( std::string filename){
     ERI.resize(((dim*dim+dim)/2)*(((dim*dim+dim)/2)+1)/2,0);
      
     std::ifstream is ;
-   is.open(filename + ("/enuc.dat"));
-   cout << is.is_open()<<endl;
+    is.open(filename + ("/enuc.dat"));
     is >> E_NN;
     cout<<"E_NN stored"<<endl;
     cout<< E_NN << endl;
