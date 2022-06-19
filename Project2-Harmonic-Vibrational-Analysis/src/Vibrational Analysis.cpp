@@ -22,8 +22,8 @@ int main(int argc, char** argv)
     mat mass_weighted_hess = hess / mass;
     vec eig_val;
     mat eig_vec;
-    eig_sym(eig_val,eig_vec,mass_weighted_hess);
-    eig_val.print();
+    arma::eig_sym(eig_val,eig_vec,mass_weighted_hess);
+    
 
 
     return 0;
