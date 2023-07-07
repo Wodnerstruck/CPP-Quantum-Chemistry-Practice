@@ -3,20 +3,21 @@ import numpy as np
 import math
 tol = 1e-8
 import time
-n = 1500
+n = 3500
 mmax = n // 2
-sparsity = 0.001
+sparsity = 0.01
 A = np.zeros((n,n))
 for i in range(0,n):
-    A[i,i] = i + 1
-A = A + sparsity*np.random.randn(1000,1000)
+    A[i,i] = i - 300
+A = A + sparsity*np.random.randn(n,n)
 A = (A.T + A) / 2
 
-k = 8 # number of initial guess vectors
+k = 2 * n # number of initial guess vectors
 eig = 4 # number of eigenvalues to solve
 t = np.eye(n,k) # set k unit initial guess vectors
 V = np.zeros((n,n))
 I = np.eye(n)
+
 
 #Begin Davidson
 start_davidson = time.time()
@@ -24,7 +25,8 @@ start_davidson = time.time()
 for m in (k,mmax,k):
     if m <= k:
         for i in range(0,m):
-            V[:,i] = t[:,i]/np.linalg.norm(t[:i]) # set initial guess vectors
+            V[:,i] = t[:,i]
+            #/np.linalg.norm(t[:i]) # set initial guess vectors
         theta_old = 1 # arbitrary value
     elif m > k:
         theta_old = theta[:eig]
@@ -36,7 +38,7 @@ for m in (k,mmax,k):
     u = U[:,index] # sort eigenvectors
     
     for i in range(0, k):
-        q = np.dot((H - theta[i]*I),np.dot(V[:,:m], u[:i])) / (theta[i] - H[i,i]) # form correction vector
+        q = np.dot((A - theta[i]*I),np.dot(V[:,:m], u[:,i])) / (theta[i] - H[i,i]) # form correction vector
         V[:,m + i] = q
     norm = np.linalg.norm(theta[:eig] - theta_old) # check convergence
     if norm < tol:

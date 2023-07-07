@@ -7,7 +7,7 @@
 #include <armadillo>
 using namespace arma;
 //initial guess H_core
-SCF::SCF(integrals Int)
+SCF::SCF(const integrals &Int)
 {
     F = Int.HC;
     F_prime = Int.X.t() * F * Int.X; //F‘
@@ -43,7 +43,7 @@ SCF::~SCF()
 {
 }
 //iterate process
-void SCF::iterat(integrals Int,std::string M_ = "NMP2"){
+void SCF::iterat( const integrals &Int,std::string M_ ){
     if(M_ == "MP2" || M_ == "mp2")
         Is_mp2 = 1;
     int cycles = 0;
@@ -96,9 +96,6 @@ void SCF::iterat(integrals Int,std::string M_ = "NMP2"){
     {
         cout<< "SCF Done :   E = " << std::fixed  << std::setprecision(12) 
             << E_2 + (Int.E_NN) << "    A.U.  after " << cycles << " Cycles" << endl;
-        if (Is_mp2 == 1){
-            void MP2 
-        }
         break;
     }
         else
@@ -106,5 +103,113 @@ void SCF::iterat(integrals Int,std::string M_ = "NMP2"){
     
 
     }
-    
+    //MP2
+    if (Is_mp2 == 1){
+        cout << "MP2 Calculation : " << endl;
+        // vector构造n*n*n*n的四维数组
+        arma::field<arma::mat> FD(Int.dim,Int.dim);
+        for (int i = 0; i < Int.dim; i++)
+        {
+            for (int j = 0; j < Int.dim; j++)
+            {
+                FD(i,j) = arma::zeros(Int.dim,Int.dim);
+            }   
+        }
+        arma::field<arma::mat>MO_1 = FD;
+        for(int i=0; i < Int.dim; i++)
+            for(int j=0; j < Int.dim; j++) {
+                for(int k=0; k < Int.dim; k++)
+                    for(int l=0; l < Int.dim; l++) {
+                        int ij = INDEX(i,j);
+                        int kl = INDEX(k,l);
+                        int ijkl = INDEX(ij,kl);
+                        MO_1(i,j)(k,l) += Int.ERI[ijkl];
+                    } 
+                } 
+        // 4th index  
+        arma::field<arma::mat>MO_2 = FD;
+        for (int i = 0; i < Int.dim; i++)
+        {
+            for (int j = 0; j < Int.dim; j++)
+            {
+                for (int k = 0; k < Int.dim; k++)
+                {
+                    for (int l = 0; l < Int.dim; l++)
+                    {
+                        for (int m =0; m < Int.dim; m++)
+                            MO_2(i,j)(k,l) += MO_1(i,j)(k,m) * C(m,l);
+                    }
+                    
+                }
+            }
+            
+        }
+        //3rd index
+        arma::field<arma::mat>MO_3 = FD;
+        for (int i = 0; i < Int.dim; i++)
+        {
+            for (int j = 0; j < Int.dim; j++)
+            {
+                for (int k = 0; k < Int.dim; k++)
+                {
+                    for (int l = 0; l < Int.dim; l++)
+                    {
+                        for (int m =0; m < Int.dim; m++)
+                            MO_3(i,j)(k,l) += MO_2(i,j)(m,l) * C(m,k);
+                    }
+                    
+                }
+            }   
+        }
+        //2nd index
+        arma::field<arma::mat>MO_4 = FD;
+        for (int i = 0; i < Int.dim; i++)
+        {
+            for (int j = 0; j < Int.dim; j++)
+            {
+                for (int k = 0; k < Int.dim; k++)
+                {
+                    for (int l = 0; l < Int.dim; l++)
+                    {
+                        for (int m =0; m < Int.dim; m++)
+                            MO_4(i,j)(k,l) += MO_3(i,m)(k,l) * C(m,j);
+                    }
+                    
+                }
+            }   
+        }
+        //1st index
+        arma::field<arma::mat>ERI_MO = FD;
+        for (int i = 0; i < Int.dim; i++)
+        {
+            for (int j = 0; j < Int.dim; j++)
+            {
+                for (int k = 0; k < Int.dim; k++)
+                {
+                    for (int l = 0; l < Int.dim; l++)
+                    {
+                        for (int m =0; m < Int.dim; m++)
+                            ERI_MO(i,j)(k,l) += MO_4(m,j)(k,l) * C(m,i);
+                    }
+                    
+                }
+            }   
+        }
+       
+        //MP2 Energy
+        int ndocc = 5;
+        for (int i = 0; i < ndocc; i++)
+            for (int a = ndocc; a < Int.dim; a++)
+                for (int j = 0; j < ndocc; j++)
+                    for (int b = ndocc; b < Int.dim; b++)
+                        E_MP2 += ERI_MO(i,a)(j,b) * (2.0 * ERI_MO(i,a)(j,b) - ERI_MO(i,b)(j,a)) / (eps_0(i) + eps_0(j) - eps_0(a) - eps_0(b));
+        cout << "MP2 Energy : " << std::fixed << std::setprecision(12) << E_MP2 << " " << endl;
+        cout << "Total Energy : " << std::fixed << std::setprecision(12) << E_2 + (Int.E_NN) + E_MP2 << " " << endl;
+
+
+    }        
+        
+        
+        
 }
+    

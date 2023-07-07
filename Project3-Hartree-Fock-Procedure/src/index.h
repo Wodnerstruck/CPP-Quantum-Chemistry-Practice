@@ -13,7 +13,7 @@ static std::vector<int> ioff = [](int BigNum_) -> std::vector<int>{
         ioff_[i] = i + ioff_[i-1];
     }
     return ioff_;
-}(BigNum);//Thanks to Ding Li from SEU / NUS / NTU
+}(BigNum);//Thanks to Ding Li for this trick
 
 
 

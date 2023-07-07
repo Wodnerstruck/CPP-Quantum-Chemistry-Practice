@@ -16,11 +16,11 @@ public:
     
     double E_1 = 0; //energy of former step;
     double E_2;//energy of last step
-    double E_total = 0;
     bool Is_mp2 = 0;
-    SCF(integrals Int);
+    double E_MP2 = 0.0;
+    SCF(const integrals &Int);
     ~SCF();
-    void iterat(integrals Int,std::string M_ = "NMP2");
+    void iterat( const integrals &Int,std::string M_ = "NMP2");
 
 };
 

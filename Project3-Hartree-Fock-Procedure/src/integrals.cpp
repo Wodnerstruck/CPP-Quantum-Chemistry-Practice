@@ -32,7 +32,7 @@ integrals::integrals( std::string filename){
     is.close();
     is.clear();
     is.open(filename + ("/s.dat"));
-     cout << is.is_open()<<endl;
+    cout << is.is_open()<<endl;
     for (int i = 0; i < (dim*dim+dim)/2; i++)
     {
         int j,k;
@@ -90,7 +90,3 @@ integrals::~integrals(){
 
 }
 
-T power (T a, int n){
-    T res = n;
-
-}
