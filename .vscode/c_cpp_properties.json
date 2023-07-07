@@ -5,8 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/local/include/**",
-                "/usr/local/Cellar/armadillo/11.0.1/include/**",
-                "/usr/local/Cellar/armadillo/11.0.1/include"
+                "/usr/local/Cellar/armadillo/11.2.4/include/**",
+                "/usr/local/Cellar/armadillo/11.2.4/include",
+                "/usr/local/Cellar/gcc/12.2.0/include/c++/12"
             ],
             "defines": [],
             "macFrameworkPath": [],

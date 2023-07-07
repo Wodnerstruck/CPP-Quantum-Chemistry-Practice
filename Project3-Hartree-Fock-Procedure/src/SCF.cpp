@@ -36,14 +36,16 @@ SCF::SCF(integrals Int)
         << std::setprecision(12) << E_2 << " (Hartree)" << endl;
     cout << "Initial Total Energy : " << std::fixed 
         << std::setprecision(12) << E_2 + (Int.E_NN) << " (Hartree)" <<endl;
-    cout << "\n\n\n"; 
+    cout << "\n\n\n";  
 }
 
 SCF::~SCF()
 {
 }
 //iterate process
-void SCF::iterat(integrals Int){
+void SCF::iterat(integrals Int,std::string M_ = "NMP2"){
+    if(M_ == "MP2" || M_ == "mp2")
+        Is_mp2 = 1;
     int cycles = 0;
     while (true)
     {   
@@ -94,6 +96,9 @@ void SCF::iterat(integrals Int){
     {
         cout<< "SCF Done :   E = " << std::fixed  << std::setprecision(12) 
             << E_2 + (Int.E_NN) << "    A.U.  after " << cycles << " Cycles" << endl;
+        if (Is_mp2 == 1){
+            void MP2 
+        }
         break;
     }
         else

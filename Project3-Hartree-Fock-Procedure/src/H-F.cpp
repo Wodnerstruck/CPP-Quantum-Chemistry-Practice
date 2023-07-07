@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    integrals Int("./data/h2o/DZ");
+    integrals Int("./data/h2o/DZP");
     SCF H2O(Int);
     H2O.iterat(Int);
     return 0;

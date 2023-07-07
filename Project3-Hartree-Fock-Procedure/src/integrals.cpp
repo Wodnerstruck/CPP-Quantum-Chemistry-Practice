@@ -89,3 +89,8 @@ integrals::integrals( std::string filename){
 integrals::~integrals(){
 
 }
+
+T power (T a, int n){
+    T res = n;
+
+}
