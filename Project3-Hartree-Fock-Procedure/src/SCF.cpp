@@ -9,6 +9,7 @@ using namespace arma;
 //initial guess H_core
 SCF::SCF(const integrals &Int)
 {
+
     F = Int.HC;
     F_prime = Int.X.t() * F * Int.X; //F‘
     arma::mat C_pri; //C'
@@ -47,6 +48,11 @@ void SCF::iterat( const integrals &Int,std::string M_ ){
     if(M_ == "MP2" || M_ == "mp2")
         Is_mp2 = 1;
     int cycles = 0;
+        cout << "SCF Calculation : " << endl;
+    // print clock time
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    cout << "The SCF procedure begin at: " << dt << endl;
     while (true)
     {   
         
@@ -203,6 +209,7 @@ void SCF::iterat( const integrals &Int,std::string M_ ){
                 for (int j = 0; j < ndocc; j++)
                     for (int b = ndocc; b < Int.dim; b++)
                         E_MP2 += ERI_MO(i,a)(j,b) * (2.0 * ERI_MO(i,a)(j,b) - ERI_MO(i,b)(j,a)) / (eps_0(i) + eps_0(j) - eps_0(a) - eps_0(b));
+        //print clock time
         cout << "MP2 Energy : " << std::fixed << std::setprecision(12) << E_MP2 << " " << endl;
         cout << "Total Energy : " << std::fixed << std::setprecision(12) << E_2 + (Int.E_NN) + E_MP2 << " " << endl;
 

@@ -3,10 +3,10 @@ add_rules("mode.debug", "mode.release")
 target("DVR-Harmonic_Osillator")
     set_kind("binary")
     add_files("src/*.cpp")
-    add_includedirs("/usr/local/Cellar/armadillo/11.0.1/include/")
+    add_includedirs("/usr/local/Cellar/armadillo/11.2.4/include/")
     add_links("armadillo")
-    set_languages( "c++11")
-    add_linkdirs("/usr/local/Cellar/armadillo/11.0.1/lib")
+    set_languages( "c++17")
+    add_linkdirs("/usr/local/Cellar/armadillo/11.2.4/lib")
 
 
 --

@@ -3,10 +3,10 @@ add_rules("mode.debug", "mode.release")
 target("Project3-Hartree-Fock-Procedure")
     set_kind("binary")
     add_files("src/*.cpp")
-    add_includedirs("/usr/local/Cellar/armadillo/11.2.4/include/")
+    add_includedirs("/usr/local/Cellar/armadillo/12.6.4/include/")
     add_links("armadillo")
     set_languages( "c++11")
-    add_linkdirs("/usr/local/Cellar/armadillo/11.2.4/lib")
+    add_linkdirs("/usr/local/Cellar/armadillo/12.6.4/lib")
 
 
 --

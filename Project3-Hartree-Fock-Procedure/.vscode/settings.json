@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.txt": "plaintext",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
